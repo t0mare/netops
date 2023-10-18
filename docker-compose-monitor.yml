@@ -1,0 +1,25 @@
+networks:
+  monitor-net:
+    name: monitor-net
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    restart: unless-stopped
+    volumes:
+      - ./data/prometheus/prometheus.yml/:/etc/prometheus/prometheus.yml
+      - ./data/prometheus/data:/prometheus
+    networks:
+      - monitor-net
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - ./data/grafana/data:/var/lib/grafana
+      - ./data/grafana/grafana.ini:/etc/grafana/grafana.ini
+    networks:
+      - monitor-net

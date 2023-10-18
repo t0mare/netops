@@ -1,0 +1,15 @@
+networks:
+  exporter-net:
+    name: exporter-net
+
+services:
+  unpoller:
+    image: ghcr.io/unpoller/unpoller
+    container_name: unpoller
+    volumes:
+      - ./data/unpoller/up.conf:/etc/unpoller/up.conf
+    #    ports:
+    #      - 9130:9130
+    restart: unless-stopped
+    networks:
+      - exporter-net
